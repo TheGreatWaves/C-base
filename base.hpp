@@ -5,26 +5,7 @@
 /////////////////////////
 // NOTE: Context Cracking
 
-#if defined(_MSC_VER)
-# define COMPILER_CL 1
-
-# if defined(_WIN32)
-#  define OS_WINDOWS 1
-# else
-#   error missing os detection
-# endif
-
-# if defined(_M_AMD64)
-# define ARCH_X64 1
-# elif defined(_M_I86)
-# define ARCH_X86 1 
-# elif defined(_M_ARM)
-# define ARCH_ARM 1
-# else
-#   error missing ARCH detection
-# endif
-
-#elif defined(__clang__)
+#if defined(__clang__)
 # define COMPILER_CLANG 1
 
 # if defined(_WIN32)
@@ -48,6 +29,26 @@
 # else
 # error missing ARCH detection
 # endif
+
+#elif defined(_MSC_VER)
+# define COMPILER_CL 1
+
+# if defined(_WIN32)
+#  define OS_WINDOWS 1
+# else
+#   error missing os detection
+# endif
+
+# if defined(_M_AMD64)
+# define ARCH_X64 1
+# elif defined(_M_I86)
+# define ARCH_X86 1 
+# elif defined(_M_ARM)
+# define ARCH_ARM 1
+# else
+#   error missing ARCH detection
+# endif
+
 
 #elif defined(__GNUC__)
 # define COMPILER_GCC 1
