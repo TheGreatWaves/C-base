@@ -122,7 +122,7 @@
 
 // NOTE: Not great can be overidden later
 #if !defined(AssertBreak)
-# define AssertBreak() (*(int*)0 = 0)
+# define AssertBreak() *(static_cast<int*>(nullptr)) = 0;
 #endif
 
 #if ENABLE_ASSERT
