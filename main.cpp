@@ -1,9 +1,9 @@
 #include <stdio.h> // Will remove this later.
 #include "base.h"
 
-#define EvalPrint(x) printf("%s = %d\n", #x, (S32)(x))
-#define EvalPrintLL(x) printf("%s = %ld\n", #x, (S64)(x))
-#define EvalPrintU(x) printf("%s = %u\n", #x, (U32)(x))
+#define EvalPrint(x)    printf("%s = %d\n", #x, (S32)(x))
+#define EvalPrintLL(x)  printf("%s = %ld\n", #x, (S64)(x))
+#define EvalPrintU(x)   printf("%s = %u\n", #x, (U32)(x))
 #define EvalPrintULL(x) printf("%s = %lu\n", #x, (U64)(x))
 
 int main()
