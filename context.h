@@ -77,6 +77,10 @@
 # error no context cracking for the compiler
 #endif
 
+#ifdef __cplusplus
+# define LANG_CPP 1
+#endif
+
 // NOTE: Zero fill missing context macros
 #if !defined(COMPILER_CL )
 # define COMPILER_CL 0
@@ -107,6 +111,9 @@
 #endif
 #if !defined(ARCH_ARM64)
 # define ARCH_ARM64 0
+#endif
+#if !defined(LANG_CPP)
+# define LANG_CPP 0
 #endif
 
 #endif // BASE_CONTEXT

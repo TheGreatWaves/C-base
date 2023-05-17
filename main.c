@@ -19,6 +19,7 @@ int main()
   printf("ARCH_X86       %d\n", ARCH_X86      );
   printf("ARCH_ARM       %d\n", ARCH_ARM      );
   printf("ARCH_ARM64     %d\n", ARCH_ARM64    );
+  printf("CPP            %d\n", LANG_CPP      );
   Assert(1 > 100);
 
 
