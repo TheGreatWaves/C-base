@@ -44,8 +44,10 @@ int main()
 
 
   // Generic printing
-  gprint("[Generic Printing]");
+  gprint("\n[Generic Printing]");
   gprint(42);
   gprint("Hello world");
+  gprint((float)23123.3);
+  gprint((double)123123.61321232);
   return 0; 
 }
