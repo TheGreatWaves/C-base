@@ -41,5 +41,11 @@ int main()
   EvalPrintU(max_U16);
   EvalPrintU(max_U32);
   EvalPrintULL(max_U64);
+
+
+  // Generic printing
+  gprint("[Generic Printing]");
+  gprint(42);
+  gprint("Hello world");
   return 0; 
 }

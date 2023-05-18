@@ -10,8 +10,8 @@
 //////////////////////////////////
 // NOTE: Helper Macros
 
-// Might move this else where
-#define Stmnt(s) do { s } while(0)
+// This is placed here just for this file to work.
+#define _Stmnt(s) do { s } while(0)
 
 // NOTE: Not great can be overidden later
 #if !defined(AssertBreak)
@@ -19,7 +19,7 @@
 #endif
 
 #if ENABLE_ASSERT
-# define Assert(c) Stmnt( if (!(c)){ AssertBreak(); } )
+# define Assert(c) _Stmnt( if (!(c)){ AssertBreak(); } )
 #else 
 # define Assert(c)
 #endif
