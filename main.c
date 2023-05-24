@@ -1,5 +1,6 @@
 #include <stdio.h> // Will remove this later.
 #include "base.h"
+#include "mem.h"
 
 #define EvalPrint(x)    printf("%s = %d\n", #x, (S32)(x))
 #define EvalPrintLL(x)  printf("%s = %ld\n", #x, (S64)(x))
@@ -49,5 +50,8 @@ int main()
   gprint("Hello world");
   gprint((float)23123.3);
   gprint((double)123123.61321232);
+
+  // Creating a memory arena
+  MemoryArena arena = makeArena();
   return 0; 
 }

@@ -7,5 +7,6 @@
 #include "types.h"
 #include "limits.h"
 #include "utils.h"
+#include "mem.h"
 
 #endif // BASE_H
