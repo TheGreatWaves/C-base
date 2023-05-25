@@ -53,5 +53,6 @@ int main()
 
   // Creating a memory arena
   MemoryArena arena = makeArena();
+  freeArena(&arena);
   return 0; 
 }
