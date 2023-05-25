@@ -16,6 +16,9 @@ typedef struct M_BaseMemory
   M_ChangeMemoryFunc * release;
 } M_BaseMemory;
 
+// Unspecified
+void mChangeMemoryNoOp(void *ctx, void *ptr, U64 size);
+
 #ifndef DEFAULT_BLOCK_SIZE
 # define DEFAULT_BLOCK_SIZE ((256)*(1024))
 #endif

@@ -13,8 +13,8 @@ mMallocBaseMemory(void)
 	{
 		// Aassign function pointers
 		mem.reserve  = mMallocReserve;
-		mem.commit   = mMallocCommit;
-		mem.decommit = mMallocDecommit;
+		mem.commit   = mChangeMemoryNoOp;
+		mem.decommit = mChangeMemoryNoOp;
 		mem.release  = mMallocRelease;
 	}
 	return mem;
