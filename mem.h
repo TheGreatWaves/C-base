@@ -4,20 +4,22 @@
 
 #include <stdlib.h>
 #include "types.h"
+#include "utils.h"
 
-typedef void* M_ReserveFunc(void *ctx, U64 size);
-typedef void  M_ChangeMemoryFunc(void *ctx, void *ptr, U64 size);
+typedef void* _m_reserve_func(void *ctx, u64 size);
+typedef void  _m_change_memory_func(void *ctx, void *ptr, u64 size);
 
 typedef struct M_BaseMemory
 {
-  M_ReserveFunc      * reserve; 
-  M_ChangeMemoryFunc * commit;
-  M_ChangeMemoryFunc * decommit;
-  M_ChangeMemoryFunc * release;
+  _m_reserve_func      * reserve; 
+  _m_change_memory_func * commit;
+  _m_change_memory_func * decommit;
+  _m_change_memory_func * release;
+  void* ctx;
 } M_BaseMemory;
 
-// Unspecified
-void mChangeMemoryNoOp(void *ctx, void *ptr, U64 size);
+// Dummy change memory function
+void m_change_memory_no_op(void *ctx, void *ptr, u64 size);
 
 #ifndef DEFAULT_BLOCK_SIZE
 # define DEFAULT_BLOCK_SIZE ((256)*(1024))
@@ -31,9 +33,9 @@ typedef struct _memory_arena {
 } MemoryArena;
 
 struct _arena_in_args { size_t blockSize; };
-MemoryArena _makeArena(struct _arena_in_args in_args);
-void freeArena(MemoryArena* arena);
+MemoryArena _make_arena(struct _arena_in_args in_args);
+void free_arena(MemoryArena* arena);
 
 
-#define makeArena(...) _makeArena((struct _arena_in_args){__VA_ARGS__});
+#define make_arena(...) _make_arena((struct _arena_in_args){__VA_ARGS__});
 #endif // BASE_MEMORY

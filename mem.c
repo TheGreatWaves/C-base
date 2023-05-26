@@ -1,26 +1,8 @@
 #include "mem.h"
 
-void* mMallocReserve(void *ctx, U64 size) { return malloc(size); }
-void  mMallocCommit(void *ctx, void *ptr, U64 size) {}
-void  mMallocDecommit(void *ctx, void *ptr, U64 size) {}
-void  mMallocRelease(void *ctx, void *ptr, U64 size) { free(ctx); }
+void m_change_memory_no_op(void *ctx, void *ptr, u64 size) {}
 
-M_BaseMemory
-mMallocBaseMemory(void) 
-{
-	M_BaseMemory mem = {};
-	if (mem.reserve == 0)
-	{
-		// Aassign function pointers
-		mem.reserve  = mMallocReserve;
-		mem.commit   = mChangeMemoryNoOp;
-		mem.decommit = mChangeMemoryNoOp;
-		mem.release  = mMallocRelease;
-	}
-	return mem;
-}
-
-MemoryArena _makeArena(struct _arena_in_args in_args) 
+MemoryArena _make_arena(struct _arena_in_args in_args) 
 {
 	size_t blockSize = (in_args.blockSize > 0) ?  in_args.blockSize : DEFAULT_BLOCK_SIZE;
   MemoryArena arena = {blockSize, 0, 0, 0};
@@ -28,4 +10,4 @@ MemoryArena _makeArena(struct _arena_in_args in_args)
   return arena;
 }
 
-void freeArena(MemoryArena* arena) { free(arena->currentBlock); } 
+void free_arena(MemoryArena* arena) { free(arena->currentBlock); } 

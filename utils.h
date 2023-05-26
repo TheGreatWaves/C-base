@@ -9,7 +9,7 @@
 //////////////////////////////////
 // NOTE: Useful utilites
 
-#define Stmnt(s) do { s } while(0)
+#define stmnt(s) do { s } while(0)
 
 // Typing casting
 #define     cast(t,v) ((t)(v))
@@ -26,32 +26,50 @@ inline void gprint(T t)  { std::cout << t << '\n'; }
 #else // C
 
 // Primitive types generic printing
-void printS32(S32 x);
-void printU32(U32 x);
-void printF32(F32 x);
-void printF64(F64 x);
-void printS64(S64 x);
-void printU64(U64 x);
-void printcharp(char* x);
-void printchar(char x);
-void printUnknown();
+void print_s32(s32 x);
+void print_u32(u32 x);
+void print_f32(f32 x);
+void print_f64(f64 x);
+void print_s64(s64 x);
+void print_u64(u64 x);
+void print_charp(char* x);
+void print_char(char x);
+void print_unknown();
 
 #define gprint(x) _Generic((x), \
-  S8: printS32,\
-  S16: printS32,\
-  S32: printS32,\
-  S64: printS64,\
-  U8: printU32, \
-  U16: printU32, \
-  U32: printU32, \
-  U64: printU64, \
-  F32: printF32, \
-  F64: printF64, \
-  char*: printcharp, \
-  char: printchar, \
-  default: printUnknown \
+  s8: print_s32,\
+  s16: print_s32,\
+  s32: print_s32,\
+  s64: print_s64,\
+  u8: print_u32, \
+  u16: print_u32, \
+  u32: print_u32, \
+  u64: print_u64, \
+  f32: print_f32, \
+  f64: print_f64, \
+  char*: print_charp, \
+  char: print_char, \
+  default: print_unknown \
 )(x)
 
 #endif // gprint 
+
+#define Min(a,b) (((a)<(b))?(a):(b))
+#define Max(a,b) (((a)>(b))?(a):(b))
+#define Clamp(a,x,b) (((x)<(a))?(a):\
+  ((b)<(x))?(b):(x))
+#define ClampTop(a,bound) Min(a,bound)
+#define ClampBot(a,bound) Max(a,bound)
+
+//////////////////////////////////
+// NOTE: Maybe these can be moved out.
+
+#define global   static
+#define local    static
+#define function static
+
+#define c_linkage_begin extern "C" {
+#define c_linkage_end }
+#define c_linkage extern "C"
 
 #endif // BASE_UTILS

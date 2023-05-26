@@ -1,11 +1,13 @@
 #include <stdio.h> // Will remove this later.
 #include "base.h"
 #include "mem.h"
+#include "mem_malloc.h"
+#include "utils.h"
 
-#define EvalPrint(x)    printf("%s = %d\n", #x, (S32)(x))
-#define EvalPrintLL(x)  printf("%s = %ld\n", #x, (S64)(x))
-#define EvalPrintU(x)   printf("%s = %u\n", #x, (U32)(x))
-#define EvalPrintULL(x) printf("%s = %lu\n", #x, (U64)(x))
+#define eval_print(x)    printf("%s = %d\n", #x, (s32)(x))
+#define eval_print_ll(x)  printf("%s = %ld\n", #x, (s64)(x))
+#define eval_print_u(x)   printf("%s = %u\n", #x, (u32)(x))
+#define eval_print_ull(x) printf("%s = %lu\n", #x, (u64)(x))
 
 int main()
 {
@@ -21,27 +23,27 @@ int main()
   printf("ARCH_ARM       %d\n", ARCH_ARM      );
   printf("ARCH_ARM64     %d\n", ARCH_ARM64    );
   printf("CPP            %d\n", LANG_CPP      );
-  Assert(1 > 100);
+  assert(1 > 100);
 
 
   printf("\n[Limit Constants]\n");
   // Minimum Limits (Signed)
-  EvalPrint(min_S8);
-  EvalPrint(min_S16);
-  EvalPrint(min_S32);
-  EvalPrintLL(min_S64);
+  eval_print(min_s8);
+  eval_print(min_s16);
+  eval_print(min_s32);
+  eval_print_ll(min_s64);
 
   // Maximum Limits (Signed)
-  EvalPrint(max_S8);
-  EvalPrint(max_S16);
-  EvalPrint(max_S32);
-  EvalPrintLL(max_S64);
+  eval_print(max_s8);
+  eval_print(max_s16);
+  eval_print(max_s32);
+  eval_print_ll(max_s64);
 
   // Maxmimum Limits (Unsigned)
-  EvalPrintU(max_U8);
-  EvalPrintU(max_U16);
-  EvalPrintU(max_U32);
-  EvalPrintULL(max_U64);
+  eval_print_u(max_u8);
+  eval_print_u(max_u16);
+  eval_print_u(max_u32);
+  eval_print_ull(max_u64);
 
 
   // Generic printing
@@ -52,7 +54,14 @@ int main()
   gprint((double)123123.61321232);
 
   // Creating a memory arena
-  MemoryArena arena = makeArena();
-  freeArena(&arena);
+  MemoryArena arena = make_arena();
+  free_arena(&arena);
+
+  // Base mem interface style malloc
+  M_BaseMemory *base_memory = m_malloc_base_memory();
+  u32* a = (u32*)base_memory->reserve(base_memory->ctx, sizeof(u32));
+  *a = 5;
+  gprint(*a);
+  base_memory->release(base_memory->ctx, cast_voidp(a), 0);
   return 0; 
 }

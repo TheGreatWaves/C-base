@@ -11,17 +11,17 @@
 // NOTE: Helper Macros
 
 // This is placed here just for this file to work.
-#define _Stmnt(s) do { s } while(0)
+#define _stmnt(s) do { s } while(0)
 
 // NOTE: Not great can be overidden later
-#if !defined(AssertBreak)
-# define AssertBreak() *((int*)0) = 0;
+#if !defined(assert_break)
+# define assert_break() *((int*)0) = 0;
 #endif
 
 #if ENABLE_ASSERT
-# define Assert(c) _Stmnt( if (!(c)){ AssertBreak(); } )
+# define assert(c) _stmnt( if (!(c)){ assert_break(); } )
 #else 
-# define Assert(c)
+# define assert(c)
 #endif
 
 #endif // BASE_ASSERT
