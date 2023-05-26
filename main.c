@@ -53,10 +53,6 @@ int main()
   gprint((float)23123.3);
   gprint((double)123123.61321232);
 
-  // Creating a memory arena
-  MemoryArena arena = make_arena();
-  free_arena(&arena);
-
   // Base mem interface style malloc
   M_BaseMemory *base_memory = m_malloc_base_memory();
   u32* a = (u32*)base_memory->reserve(base_memory->ctx, sizeof(u32));

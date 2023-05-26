@@ -7,7 +7,7 @@ void  m_malloc_release(void *ctx, void *ptr, u64 size) { free(ptr); }
 
 M_BaseMemory* m_malloc_base_memory(void) 
 {
-	local M_BaseMemory mem = {};
+	static M_BaseMemory mem = {};
 	if (mem.reserve == 0)
 	{
 		// Aassign function pointers

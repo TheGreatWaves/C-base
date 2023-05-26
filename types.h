@@ -23,4 +23,28 @@ typedef         float    f32;
 typedef        double    f64;
 typedef unsigned long size_t;
 
+//////////////////////////////////
+// NOTE: Basic Helpers
+
+#define Min(a,b) (((a)<(b))?(a):(b))
+#define Max(a,b) (((a)>(b))?(a):(b))
+#define Clamp(a,x,b) (((x)<(a))?(a):\
+  ((b)<(x))?(b):(x))
+#define ClampTop(a,bound) Min(a,bound)
+#define ClampBot(a,bound) Max(a,bound)
+
+#define AlignUpPow2(x, p) (((x) + (p) - 1)&~((p) - 1))
+#define AlignDownPow2(x, p) ((x)&~((p) - 1))
+
+//////////////////////////////////
+// NOTE: File sizes
+#define KB(x) ((x) << 10)
+#define MB(x) ((x) << 20)
+#define GB(x) ((x) << 30)
+#define TB(x) ((x) << 40)
+
+#define c_linkage_begin extern "C" {
+#define c_linkage_end }
+#define c_linkage extern "C"
+
 #endif // BASE_TYPES

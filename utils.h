@@ -54,22 +54,5 @@ void print_unknown();
 
 #endif // gprint 
 
-#define Min(a,b) (((a)<(b))?(a):(b))
-#define Max(a,b) (((a)>(b))?(a):(b))
-#define Clamp(a,x,b) (((x)<(a))?(a):\
-  ((b)<(x))?(b):(x))
-#define ClampTop(a,bound) Min(a,bound)
-#define ClampBot(a,bound) Max(a,bound)
-
-//////////////////////////////////
-// NOTE: Maybe these can be moved out.
-
-#define global   static
-#define local    static
-#define function static
-
-#define c_linkage_begin extern "C" {
-#define c_linkage_end }
-#define c_linkage extern "C"
 
 #endif // BASE_UTILS
