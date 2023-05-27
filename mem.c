@@ -1,5 +1,4 @@
 #include "mem.h"
-#include "utils.h"
 
 void m_change_memory_no_op(void *ctx, void *ptr, u64 size) {}
 
@@ -64,6 +63,7 @@ void* m_arena_push(M_Arena* arena, u64 size)
 			arena->commit_pos = next_commit_pos;
 		}
 	}
+	assert(result);
 	return result;
 }
 
@@ -84,9 +84,9 @@ void m_arena_pop_to(M_Arena* arena, u64 pos)
 		
 		u64 commit_pos = arena->commit_pos;
 
-		// Check if the calculated next commit position is behind
-		// our actual current commit position, if so then we must
-		// decommit and reset our commit position.
+		// See if there is block comitted which is beyond our current 
+		// position, if there is then it must mean that we have overcomitted,
+		// which means that we must decommit the block.
 		if (next_commit_pos < commit_pos) 
 		{
 			u64 decommit_size = commit_pos - next_commit_pos;
@@ -95,4 +95,45 @@ void m_arena_pop_to(M_Arena* arena, u64 pos)
 			arena->commit_pos = next_commit_pos;
 		}
 	}
+}
+
+void m_arena_align(M_Arena* arena, u64 pow_2_align)
+{
+	u64 pos = arena->pos;
+	u64 pos_aligned = AlignUpPow2(pos, pow_2_align);
+	u64 z = pos_aligned - pos;
+	if (z > 0)
+	{
+		m_arena_push(arena,z);
+	}
+}
+
+void* m_arena_push_zero(M_Arena* arena, u64 size)
+{
+	void *result = m_arena_push(arena, size);
+	MemoryZero(result, size);
+	return result;
+}
+
+void m_arena_align_zero(M_Arena* arena, u64 pow_2_align)
+{
+	u64 pos = arena->pos;
+	u64 pos_aligned = AlignUpPow2(pos, pow_2_align);
+	u64 z = pos_aligned - pos;
+	if (z > 0)
+	{
+		m_arena_push_zero(arena,z);
+	}
+}
+
+M_Temp m_begin_temp(M_Arena* arena)
+{
+	M_Temp temp = {arena, arena->pos};
+	return temp;
+}
+
+void m_end_temp(M_Temp temp)
+{
+	// Deallocate
+	m_arena_pop_to(temp.arena, temp.pos);
 }

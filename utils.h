@@ -54,5 +54,8 @@ void print_unknown();
 
 #endif // gprint 
 
+#include <string.h>
+#define MemoryZero(p,z) memset((p), 0, (z))
+#define MemoryZeroStruct(p) memset((p),sizeof(*(p)))
 
 #endif // BASE_UTILS

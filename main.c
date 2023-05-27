@@ -54,10 +54,22 @@ int main()
   gprint((double)123123.61321232);
 
   // Base mem interface style malloc
-  M_BaseMemory *base_memory = m_malloc_base_memory();
-  u32* a = (u32*)base_memory->reserve(base_memory->ctx, sizeof(u32));
-  *a = 5;
-  gprint(*a);
-  base_memory->release(base_memory->ctx, cast_voidp(a), 0);
+  M_Arena arena = m_make_arena(m_malloc_base_memory());
+  {
+    // Take snapshop of current arena state
+    M_Temp temp = m_begin_temp(&arena);
+
+    // Action...
+    int* arr = push_array(&arena,int,5);
+    for (int i=0; i<5; i++)
+    {
+      arr[i] = 1+i;
+      gprint(arr[i]);
+    }
+
+    // Revert arena state to prior to action
+    m_end_temp(temp);
+  }
+  m_arena_release(&arena);
   return 0; 
 }
