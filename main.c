@@ -1,8 +1,8 @@
 #include "base.h"
-#include "mem.h"
 #include "mem_malloc.h"
 #include "utils.h"
 #include <stdio.h> // Will remove this later.
+#include "array.h"
 
 #define eval_print(x)     printf("%s = %d\n", #x, ( s32 ) (x))
 #define eval_print_ll(x)  printf("%s = %ld\n", #x, ( s64 ) (x))
@@ -69,5 +69,25 @@ int main()
         m_end_temp(temp);
     }
     m_arena_release(&arena);
+
+
+    gprint("\n========== ARRAY =========\n");
+    
+
+    ArrayType(int) int_array;
+    ArrayInit(int_array);
+
+    for (int i=0; i<10; i++)
+    {
+        write_array(&int_array, int, i);
+    }
+
+    for (int i=0; i<10; i++)
+    {
+        gprint(int_array.data[i]);
+    }
+
+    free_array(&int_array);
+
     return 0;
 }

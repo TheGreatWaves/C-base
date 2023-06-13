@@ -70,4 +70,15 @@ void  m_arena_align_zero(M_Arena* arena, u64 pow_2_align);
 M_Temp m_begin_temp(M_Arena* arena);
 void   m_end_temp(M_Temp temp);
 
+#define GROW_CAPACITY(capacity) \
+	((capacity) < 8 ? 8 : (capacity) * 2)
+
+#define GROW_ARRAY(type, pointer, old_count, new_count) \
+	((type*) reallocate((pointer), sizeof(type) * (old_count), sizeof(type) * (new_count)))
+
+#define FREE_ARRAY(type, pointer, old_count) \
+	reallocate(pointer, sizeof(type) * (old_count), 0)
+
+void* reallocate(void* pointer, size_t old_size, size_t new_size);
+
 #endif // BASE_MEMORY
