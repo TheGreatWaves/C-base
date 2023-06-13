@@ -5,115 +5,114 @@
 // NOTE: Context Cracking
 
 #if defined(__clang__)
-# define COMPILER_CLANG 1
+#define COMPILER_CLANG 1
 
-# if defined(_WIN32)
-#  define OS_WINDOWS 1
-# elif defined(__gnu_linux__)
-#  define OS_LINUX 1
-# elif defined(__APPLE__) && defined(__MACH__)
-#  define OS_MAC 1
-# else 
-#   error missing os detection
-# endif
+#if defined(_WIN32)
+#define OS_WINDOWS 1
+#elif defined(__gnu_linux__)
+#define OS_LINUX 1
+#elif defined(__APPLE__) && defined(__MACH__)
+#define OS_MAC 1
+#else
+#error missing os detection
+#endif
 
-# if defined(__amd64__)
-#  define ARCH_X64 1
-# elif defined(__i386__)
-# define ARCH_X86 1
-# elif defined(__arm__)
-# define ARCH_ARM 1
-# elif defined(__aarch64__)
-# define ARCH_ARM64 1
-# else
-# error missing ARCH detection
-# endif
+#if defined(__amd64__)
+#define ARCH_X64 1
+#elif defined(__i386__)
+#define ARCH_X86 1
+#elif defined(__arm__)
+#define ARCH_ARM 1
+#elif defined(__aarch64__)
+#define ARCH_ARM64 1
+#else
+#error missing ARCH detection
+#endif
 
 #elif defined(_MSC_VER)
-# define COMPILER_CL 1
+#define COMPILER_CL 1
 
-# if defined(_WIN32)
-#  define OS_WINDOWS 1
-# else
-#   error missing os detection
-# endif
+#if defined(_WIN32)
+#define OS_WINDOWS 1
+#else
+#error missing os detection
+#endif
 
-# if defined(_M_AMD64)
-# define ARCH_X64 1
-# elif defined(_M_I86)
-# define ARCH_X86 1 
-# elif defined(_M_ARM)
-# define ARCH_ARM 1
-# else
-#   error missing ARCH detection
-# endif
-
+#if defined(_M_AMD64)
+#define ARCH_X64 1
+#elif defined(_M_I86)
+#define ARCH_X86 1
+#elif defined(_M_ARM)
+#define ARCH_ARM 1
+#else
+#error missing ARCH detection
+#endif
 
 #elif defined(__GNUC__)
-# define COMPILER_GCC 1
+#define COMPILER_GCC 1
 
-# if defined(_WIN32)
-#  define OS_WINDOWS 1
-# elif defined(__gnu_linux__)
-#  define OS_LINUX 1
-# elif defined(__APPLE__) && defined(__MACH__)
-#  define OS_MAC 1
-# else 
-#   error missing os detection
-# endif
-
-# if defined(__amd64__)
-# define ARCH_X64 1
-# elif defined(__i386__)
-# define ARCH_X86 1
-# elif defined(__arm__)
-# define ARCH_ARM 1
-# elif defined(__aarch64__)
-# define ARCH_ARM64 1
-# else
-#  error missing ARCH detection
-# endif
+#if defined(_WIN32)
+#define OS_WINDOWS 1
+#elif defined(__gnu_linux__)
+#define OS_LINUX 1
+#elif defined(__APPLE__) && defined(__MACH__)
+#define OS_MAC 1
 #else
-# error no context cracking for the compiler
+#error missing os detection
+#endif
+
+#if defined(__amd64__)
+#define ARCH_X64 1
+#elif defined(__i386__)
+#define ARCH_X86 1
+#elif defined(__arm__)
+#define ARCH_ARM 1
+#elif defined(__aarch64__)
+#define ARCH_ARM64 1
+#else
+#error missing ARCH detection
+#endif
+#else
+#error no context cracking for the compiler
 #endif
 
 #ifdef __cplusplus
-# define LANG_CPP 1
+#define LANG_CPP 1
 #endif
 
 // NOTE: Zero fill missing context macros
-#if !defined(COMPILER_CL )
-# define COMPILER_CL 0
+#if !defined(COMPILER_CL)
+#define COMPILER_CL 0
 #endif
-#if !defined(COMPILER_CLANG )
-# define COMPILER_CLANG 0
+#if !defined(COMPILER_CLANG)
+#define COMPILER_CLANG 0
 #endif
-#if !defined(COMPILER_GCC )
-# define COMPILER_GCC 0
+#if !defined(COMPILER_GCC)
+#define COMPILER_GCC 0
 #endif
 #if !defined(OS_WINDOWS)
-# define OS_WINDOWS 0
+#define OS_WINDOWS 0
 #endif
 #if !defined(OS_LINUX)
-# define OS_LINUX 0
+#define OS_LINUX 0
 #endif
 #if !defined(OS_MAC)
-# define OS_MAC 0
+#define OS_MAC 0
 #endif
 #if !defined(ARCH_X64)
-# define ARCH_X64 0
+#define ARCH_X64 0
 #endif
 #if !defined(ARCH_X86)
-# define ARCH_X86 0
+#define ARCH_X86 0
 #endif
 #if !defined(ARCH_ARM)
-# define ARCH_ARM 0
+#define ARCH_ARM 0
 #endif
 #if !defined(ARCH_ARM64)
-# define ARCH_ARM64 0
+#define ARCH_ARM64 0
 #endif
 #if !defined(LANG_CPP)
-# define LANG_CPP 0
+#define LANG_CPP 0
 #endif
 
 #endif // BASE_CONTEXT

@@ -9,19 +9,25 @@
 //////////////////////////////////
 // NOTE: Useful utilites.
 
-#define stmnt(s) do { s } while(0)
+#define stmnt(s)                                                                                   \
+    do                                                                                             \
+    {                                                                                              \
+        s                                                                                          \
+    } while (0)
 
 // Typing casting
-#define     cast(t,v) ((t)(v))
-#define  cast_void(v) cast(void,(v)) 
-#define cast_voidp(v) cast(void*,(v)) 
-
+#define cast(t, v)    (( t ) (v))
+#define cast_void(v)  cast(void, (v))
+#define cast_voidp(v) cast(void*, (v))
 
 #if LANG_CPP
 #include <iostream>
 // TODO: Need to fix precision error.
 template <typename T>
-inline void gprint(T t)  { std::cout << t << '\n'; }
+inline void gprint(T t)
+{
+    std::cout << t << '\n';
+}
 
 #else // C
 
@@ -36,7 +42,8 @@ void print_charp(char* x);
 void print_char(char x);
 void print_unknown();
 
-#define gprint(x) _Generic((x), \
+#define gprint(x)                                                                                  \
+    _Generic((x), \
   s8: print_s32,\
   s16: print_s32,\
   s32: print_s32,\
@@ -52,17 +59,17 @@ void print_unknown();
   default: print_unknown \
 )(x)
 
-#endif // gprint 
+#endif // gprint
 
 #include <string.h>
-#define MemoryZero(p,z) memset((p), 0, (z))
-#define MemoryZeroStruct(p) memset((p),sizeof(*(p)))
+#define MemoryZero(p, z)    memset((p), 0, (z))
+#define MemoryZeroStruct(p) memset((p), sizeof(*(p)))
 
 // Creates a mask of n 1s.
-#define MASK(n)     (~((~((uint32_t)0)) << n)) 
+#define MASK(n) (~((~(( uint32_t ) 0)) << n))
 
 // Creates a mask of n 1s followed by p 0s.
-#define MASK1(n, p) ((MASK(n))<<(p))
+#define MASK1(n, p) ((MASK(n)) << (p))
 
 // Creates a mask of n 0s followed by p 1s.
 #define MASK0(n, p) (~(MASK1(n, p)))
