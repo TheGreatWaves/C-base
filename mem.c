@@ -144,24 +144,23 @@ void m_end_temp(M_Temp temp)
 
 void* reallocate(void* pointer, size_t old_size, size_t new_size)
 {
-  void* result = NULL;
+    void* result = NULL;
 
-  if (new_size==0)
-  {
-    gprint("freed");
-    free(pointer);
-    return NULL;
-  }
-  else if (old_size==0)
-  {
-    result = malloc(sizeof(int) * new_size);
-  }
-  else 
-  {
-    result = realloc(pointer, new_size);
-  }
-	// Failed allocation
-	assert(result!=NULL);
-  return result;
+    if (new_size == 0)
+    {
+        gprint("freed");
+        free(pointer);
+        return NULL;
+    }
+    else if (old_size == 0)
+    {
+        result = malloc(sizeof(int) * new_size);
+    }
+    else
+    {
+        result = realloc(pointer, new_size);
+    }
+    // Failed allocation
+    assert(result != NULL);
+    return result;
 }
-

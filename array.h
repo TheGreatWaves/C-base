@@ -16,7 +16,7 @@ typedef struct {
 } Array_Impl;
 
 #define ArrayType(type) struct { Array_Impl impl; type *data; }
-#define ArrayInit(arr) init_array(&arr.impl, sizeof(*arr.data))
+#define ArrayInit(arr) init_array(&((arr)->impl), sizeof(*((arr)->data)))
 void init_array(Array_Impl *impl, size_t elem_size);
 
 #define free_array(pointer) \
