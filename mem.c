@@ -164,3 +164,15 @@ void* reallocate(void* pointer, size_t old_size, size_t new_size)
     assert(result != NULL);
     return result;
 }
+
+u32 hash_string(char* characters)
+{
+	u32 hash = 2166136261u;
+  size_t length = strlen(characters);
+  for (int i=0; i<length; i++)
+  {
+    hash ^= cast(u8, characters[i]);
+    hash *= 16777619;
+  }
+  return hash;
+}

@@ -10,6 +10,8 @@
 #define eval_print_u(x)   printf("%s = %u\n", #x, ( u32 ) (x))
 #define eval_print_ull(x) printf("%s = %lu\n", #x, ( u64 ) (x))
 
+DECLARE_TABLE(CharTable, int)
+
 int main()
 {
     printf("[Context]\n");
@@ -90,8 +92,14 @@ int main()
 
     gprint("\n========== TABLE  =========\n");
 
-    TableType(int, int) table;
-    TableInit(&table);
 
+    CharTable table = CharTable_make();
+
+    bool new_set = CharTable_set(&table, "karan", 69);
+
+    if (new_set) gprint(CharTable_find(&table, "karan")->value);
+
+    CharTable_set(&table, "karan", 269);
+    gprint(CharTable_find(&table, "karan")->value);
     return 0;
 }

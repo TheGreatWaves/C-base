@@ -6,6 +6,7 @@
 // NOTE: Basic Types
 
 #include <stdint.h>
+#include <stdbool.h>
 
 typedef int8_t        s8;
 typedef int16_t       s16;

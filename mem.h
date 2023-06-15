@@ -6,6 +6,7 @@
 #include "types.h"
 #include "utils.h"
 #include <stdlib.h>
+#include <string.h>
 
 typedef void* _m_reserve_func(void* ctx, u64 size);
 typedef void  _m_change_memory_func(void* ctx, void* ptr, u64 size);
@@ -70,6 +71,8 @@ void  m_arena_align_zero(M_Arena* arena, u64 pow_2_align);
 M_Temp m_begin_temp(M_Arena* arena);
 void   m_end_temp(M_Temp temp);
 
+// Note: Useful defines from Crafting Interpreters. Thankyou Robert.
+
 #define GROW_CAPACITY(capacity) \
 	((capacity) < 8 ? 8 : (capacity) * 2)
 
@@ -79,6 +82,12 @@ void   m_end_temp(M_Temp temp);
 #define FREE_ARRAY(type, pointer, old_count) \
 	reallocate(pointer, sizeof(type) * (old_count), 0)
 
+#define ALLOCATE(type, count) \
+    (type*)reallocate(NULL, 0, sizeof(type) * (count))
+
 void* reallocate(void* pointer, size_t old_size, size_t new_size);
+
+// Note Hash Functions
+u32 hash_string(char* characters);
 
 #endif // BASE_MEMORY
