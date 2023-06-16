@@ -9,18 +9,21 @@
 //////////////////////////////////
 // NOTE: Useful utilites.
 
-#define stmnt(s) do { s } while (0)
+#define stmnt(s)                                                                                   \
+    do                                                                                             \
+    {                                                                                              \
+        s                                                                                          \
+    } while (0)
 
 // Typing casting
 #define cast(t, v)    (( t ) (v))
 #define cast_void(v)  cast(void, (v))
 #define cast_voidp(v) cast(void*, (v))
 
-#define str(x) #x
+#define str(x)            #x
 #define join_helper(a, b) a##b
-#define join(a, b) join_helper(str(a), str(b))
-#define glue(a, b) join_helper(a, b)
-
+#define join(a, b)        join_helper(str(a), str(b))
+#define glue(a, b)        join_helper(a, b)
 
 #if LANG_CPP
 #include <iostream>

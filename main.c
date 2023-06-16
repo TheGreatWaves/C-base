@@ -91,21 +91,23 @@ int main()
 
     gprint("\n========== TABLE  =========\n");
 
-    CharTable table = CharTable_make();
-    bool new_set = CharTable_set(&table, "foo", 100);
-    if (new_set) gprint(CharTable_find(&table, "foo")->value);
+    CharTable table   = CharTable_make();
+    bool      new_set = CharTable_set(&table, "foo", 100);
+    if (new_set)
+        gprint(CharTable_find(&table, "foo")->value);
     CharTable_set(&table, "foo", 200);
     gprint(CharTable_find(&table, "foo")->value);
 
     int* entry = PUSH_ARRAY(&arena, int, 1);
     bool found = CharTable_get(&table, "foo", entry);
-    if (found) 
+    if (found)
     {
         gprint("Found");
         gprint(*entry);
     }
-    else gprint("Not found");
-    
+    else
+        gprint("Not found");
+
     m_arena_release(&arena);
     return 0;
 }
