@@ -35,6 +35,16 @@ typedef struct {
 		}                                                                   \
 	}                                                                     
 
+#define GET_TABLE(name, val_type)                                       \
+  bool name##_get(name* table, char* key, val_type* value)              \
+  {                                                                     \
+    if (table->impl.count == 0) return false;                           \
+    name##_entry* entry = name##_find(table, key);                      \
+    if (entry->key==NULL) return false;                                 \
+    *value = entry->value;                                              \
+    return true;                                                        \
+  }
+
 #define ADJUST_CAPACITY_TABLE(name, val_type)                           \
 	void name##_adjust_capacity(name* table, size_t capacity)             \
 	{                                                                     \
@@ -90,7 +100,8 @@ typedef struct {
 	MAKE_TABLE(name, val_type)                                            \
 	FIND_TABLE(name, val_type)                                            \
   ADJUST_CAPACITY_TABLE(name, val_type)                                 \
-  SET_TABLE(name, val_type)                                 
+  SET_TABLE(name, val_type)                                             \
+	GET_TABLE(name, val_type)
 
 #define TABLE_INIT(table) stmnt(     \
 	init_table_impl(&((table)->impl)); \

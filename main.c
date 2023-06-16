@@ -71,7 +71,6 @@ int main()
         // Revert arena state to prior to action
         m_end_temp(temp);
     }
-    m_arena_release(&arena);
 
     gprint("\n========== ARRAY =========\n");
 
@@ -97,5 +96,16 @@ int main()
     if (new_set) gprint(CharTable_find(&table, "foo")->value);
     CharTable_set(&table, "foo", 200);
     gprint(CharTable_find(&table, "foo")->value);
+
+    int* entry = PUSH_ARRAY(&arena, int, 1);
+    bool found = CharTable_get(&table, "foo", entry);
+    if (found) 
+    {
+        gprint("Found");
+        gprint(*entry);
+    }
+    else gprint("Not found");
+    
+    m_arena_release(&arena);
     return 0;
 }
