@@ -12,27 +12,15 @@ typedef struct {
 	size_t capacity;
 } Table_Impl;
 
-// Note: Evil anonymous struct
-#define DECLARE_TABLE(name, val_type)                                   \
-	typedef struct                                                        \
-	{                                                                     \
-			char* key;                                                        \
-			val_type value;                                                   \
-	} name##_entry;                                                       \
-                                                                        \
-  typedef struct                                                        \
-	{                                                                     \
-		Table_Impl impl;                                                    \
-		name##_entry* entries;                                              \
-	} name;                                                               \
-                                                                        \
+#define MAKE_TABLE(name, val_type)                                      \
 	name name##_make()                                                    \
-{                                                                       \
-	name t;                                                               \
-	TableInit(&t);                                                        \
-return t;                                                               \
-}                                                                       \
-                                                                        \
+	{                                                                     \
+		name t;                                                             \
+		TABLE_INIT(&t);                                                     \
+	return t;                                                             \
+	}                                                                     
+
+#define FIND_TABLE(name, val_type)                                      \
 	name##_entry* name##_find(name* table, char* key)                     \
 	{                                                                     \
 		u32 index = hash_string(key) % table->impl.capacity;                \
@@ -45,7 +33,9 @@ return t;                                                               \
 			}                                                                 \
 			index = (index + 1) % table->impl.capacity;                       \
 		}                                                                   \
-	}                                                                     \
+	}                                                                     
+
+#define ADJUST_CAPACITY_TABLE(name, val_type)                           \
 	void name##_adjust_capacity(name* table, size_t capacity)             \
 	{                                                                     \
 	  name##_entry* entries = ALLOCATE(name##_entry, capacity);           \
@@ -66,8 +56,9 @@ return t;                                                               \
 		FREE_ARRAY(void*, table->entries, table->impl.capacity);            \
 		table->entries = entries;                                           \
 		table->impl.capacity = capacity;                                    \
-	}                                                                     \
-                                                                        \
+	}                                                                     
+
+#define SET_TABLE(name, val_type)                                       \
 	bool name##_set(name* table, char* key, val_type val)                 \
 	{                                                                     \
 	  if (table->impl.count + 1 > table->impl.capacity * TABLE_MAX_LOAD)  \
@@ -83,18 +74,35 @@ return t;                                                               \
 		return is_new_key;                                                  \
 	}
 
+// Note: Evil anonymous struct
+#define DECLARE_TABLE(name, val_type)                                   \
+	typedef struct                                                        \
+	{                                                                     \
+			char* key;                                                        \
+			val_type value;                                                   \
+	} name##_entry;                                                       \
+                                                                        \
+  typedef struct                                                        \
+	{                                                                     \
+		Table_Impl impl;                                                    \
+		name##_entry* entries;                                              \
+	} name;                                                               \
+	MAKE_TABLE(name, val_type)                                            \
+	FIND_TABLE(name, val_type)                                            \
+  ADJUST_CAPACITY_TABLE(name, val_type)                                 \
+  SET_TABLE(name, val_type)                                 
 
-#define TableInit(table) stmnt(      \
+#define TABLE_INIT(table) stmnt(     \
 	init_table_impl(&((table)->impl)); \
 	(table)->entries = NULL;           \
 )
 
-#define free_table(table) stmnt(         \
+#define FREE_TABLE(table) stmnt(         \
 	FREE_ARRAY(void*, (table)->entries, 0) \
 	init_table_impl(&table.impl);          \
 )	
 
-#define table_set(table, k, v) stmnt(                              \
+#define TABLE_SET(table, k, v) stmnt(                              \
 	if (table.impl.count + 1 > table.impl.capacity * TABLE_MAX_LOAD) \
 	{                                                                \
 		size_t capacity = GROW_CAPACITY(table.impl.capacity);          \

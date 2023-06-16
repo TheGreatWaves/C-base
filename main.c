@@ -5,10 +5,10 @@
 #include "utils.h"
 #include <stdio.h> // Will remove this later.
 
-#define eval_print(x)     printf("%s = %d\n", #x, ( s32 ) (x))
-#define eval_print_ll(x)  printf("%s = %ld\n", #x, ( s64 ) (x))
-#define eval_print_u(x)   printf("%s = %u\n", #x, ( u32 ) (x))
-#define eval_print_ull(x) printf("%s = %lu\n", #x, ( u64 ) (x))
+#define EVAL_PRINT(x)     printf("%s = %d\n", #x, ( s32 ) (x))
+#define EVAL_PRINT_LL(x)  printf("%s = %ld\n", #x, ( s64 ) (x))
+#define EVAL_PRINT_u(x)   printf("%s = %u\n", #x, ( u32 ) (x))
+#define EVAL_PRINT_ull(x) printf("%s = %lu\n", #x, ( u64 ) (x))
 
 DECLARE_TABLE(CharTable, int)
 
@@ -30,22 +30,22 @@ int main()
 
     printf("\n[Limit Constants]\n");
     // Minimum Limits (Signed)
-    eval_print(min_s8);
-    eval_print(min_s16);
-    eval_print(min_s32);
-    eval_print_ll(min_s64);
+    EVAL_PRINT(min_s8);
+    EVAL_PRINT(min_s16);
+    EVAL_PRINT(min_s32);
+    EVAL_PRINT_LL(min_s64);
 
     // Maximum Limits (Signed)
-    eval_print(max_s8);
-    eval_print(max_s16);
-    eval_print(max_s32);
-    eval_print_ll(max_s64);
+    EVAL_PRINT(max_s8);
+    EVAL_PRINT(max_s16);
+    EVAL_PRINT(max_s32);
+    EVAL_PRINT_LL(max_s64);
 
     // Maxmimum Limits (Unsigned)
-    eval_print_u(max_u8);
-    eval_print_u(max_u16);
-    eval_print_u(max_u32);
-    eval_print_ull(max_u64);
+    EVAL_PRINT_u(max_u8);
+    EVAL_PRINT_u(max_u16);
+    EVAL_PRINT_u(max_u32);
+    EVAL_PRINT_ull(max_u64);
 
     // Generic printing
     gprint("\n[Generic Printing]");
@@ -61,7 +61,7 @@ int main()
         M_Temp temp = m_begin_temp(&arena);
 
         // Action...
-        int* arr = push_array(&arena, int, 5);
+        int* arr = PUSH_ARRAY(&arena, int, 5);
         for (int i = 0; i < 5; i++)
         {
             arr[i] = 1 + i;
@@ -75,12 +75,12 @@ int main()
 
     gprint("\n========== ARRAY =========\n");
 
-    ArrayType(int) int_array;
-    ArrayInit(&int_array);
+    ARRAY_TYPE(int) int_array;
+    ARRAY_INIT(&int_array);
 
     for (int i = 0; i < 10; i++)
     {
-        write_array(&int_array, int, i);
+        WRITE_ARRAY(&int_array, int, i);
     }
 
     for (int i = 0; i < 10; i++)
@@ -88,18 +88,14 @@ int main()
         gprint(int_array.data[i]);
     }
 
-    free_array(&int_array);
+    RELEASE_ARRAY(&int_array);
 
     gprint("\n========== TABLE  =========\n");
 
-
     CharTable table = CharTable_make();
-
-    bool new_set = CharTable_set(&table, "karan", 69);
-
-    if (new_set) gprint(CharTable_find(&table, "karan")->value);
-
-    CharTable_set(&table, "karan", 269);
-    gprint(CharTable_find(&table, "karan")->value);
+    bool new_set = CharTable_set(&table, "foo", 100);
+    if (new_set) gprint(CharTable_find(&table, "foo")->value);
+    CharTable_set(&table, "foo", 200);
+    gprint(CharTable_find(&table, "foo")->value);
     return 0;
 }

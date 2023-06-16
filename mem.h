@@ -1,5 +1,5 @@
 #pragma once
-#ifndef BASE_MEMORY
+#ifndef base_memory
 #define BASE_MEMORY
 
 #include "assert.h"
@@ -65,8 +65,8 @@ void  m_arena_align(M_Arena* arena, u64 pow_2_align);
 void* m_arena_push_zero(M_Arena* arena, u64 size);
 void  m_arena_align_zero(M_Arena* arena, u64 pow_2_align);
 
-#define push_array(a, T, c)      ( T* ) m_arena_push((a), sizeof(T) * (c))
-#define push_array_zero(a, T, c) ( T* ) m_arena_push_zero((a), sizeof(T) * (c))
+#define PUSH_ARRAY(a, T, c)      ( T* ) m_arena_push((a), sizeof(T) * (c))
+#define PUSH_ARRAY_ZERO(a, T, c) ( T* ) m_arena_push_zero((a), sizeof(T) * (c))
 
 M_Temp m_begin_temp(M_Arena* arena);
 void   m_end_temp(M_Temp temp);
