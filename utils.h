@@ -19,6 +19,7 @@
 #define str(x) #x
 #define join_helper(a, b) a##b
 #define join(a, b) join_helper(str(a), str(b))
+#define glue(a, b) join_helper(a, b)
 
 
 #if LANG_CPP
