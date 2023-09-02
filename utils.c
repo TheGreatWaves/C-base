@@ -34,7 +34,7 @@ void print_char(char x)
 {
     print_charp(&x);
 }
-void print_unknown()
+void print_unknown(void*)
 {
     print_charp("Unknown type");
 }

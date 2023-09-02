@@ -22,8 +22,8 @@ typedef struct
         Array_Impl impl;                                                                           \
         type*      data;                                                                           \
     }
-#define ARRAY_INIT(arr) init_array(&((arr)->impl), sizeof(*((arr)->data)))
-void init_array(Array_Impl* impl, size_t elem_size);
+#define ARRAY_INIT(arr) init_array_impl(&((arr)->impl), sizeof(*((arr)->data)))
+void init_array_impl(Array_Impl* impl, size_t elem_size);
 
 #define RELEASE_ARRAY(pointer)                                                                     \
     FREE_ARRAY(void*, (pointer)->data, 0);                                                         \

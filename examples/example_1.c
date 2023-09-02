@@ -1,16 +1,94 @@
-#include "array.h"
-#include "base.h"
-#include "hashtable.h"
-#include "mem_malloc.h"
-#include "utils.h"
 #include <stdio.h> // Will remove this later.
+#include "../array.h"
+#include "../base.h"
+#include "../hashtable.h"
+#include "../mem_malloc.h"
+#include "../utils.h"
 
 #define EVAL_PRINT(x)     printf("%s = %d\n", #x, ( s32 ) (x))
 #define EVAL_PRINT_LL(x)  printf("%s = %ld\n", #x, ( s64 ) (x))
 #define EVAL_PRINT_u(x)   printf("%s = %u\n", #x, ( u32 ) (x))
 #define EVAL_PRINT_ull(x) printf("%s = %lu\n", #x, ( u64 ) (x))
 
-DECLARE_TABLE(CharTable, int)
+typedef struct
+{
+    char* key;
+    int   value;
+} CharTable_entry;
+typedef struct
+{
+    Table_Impl       impl;
+    CharTable_entry* entries;
+} CharTable;
+CharTable CharTable_make()
+{
+    CharTable t;
+    do
+    {
+        init_table_impl(&((&t)->impl));
+        (&t)->entries = NULL;
+    } while (0);
+    return t;
+}
+CharTable_entry* CharTable_find(CharTable* table, char* key)
+{
+    u32 index = hash_string(key) % table->impl.capacity;
+    for (;;)
+    {
+        CharTable_entry* entry = &table->entries[index];
+        if (entry->key == NULL || strcmp(entry->key, key) == 0)
+        {
+            return entry;
+        }
+        index = (index + 1) % table->impl.capacity;
+    }
+}
+void CharTable_adjust_capacity(CharTable* table, size_t capacity)
+{
+    CharTable_entry* entries =
+        ( CharTable_entry* ) reallocate(NULL, 0, sizeof(CharTable_entry) * (capacity));
+    for (int i = 0; i < capacity; i++)
+    {
+        entries[i].key = NULL;
+    }
+    for (int i = 0; i < table->impl.capacity; i++)
+    {
+        CharTable_entry* entry = &table->entries[i];
+        if (entry->key == NULL)
+            continue;
+        CharTable_entry* dest = CharTable_find(table, entry->key);
+        dest->key             = entry->key;
+        dest->value           = entry->value;
+    }
+    reallocate(table->entries, sizeof(void*) * (table->impl.capacity), 0);
+    table->entries       = entries;
+    table->impl.capacity = capacity;
+}
+bool CharTable_set(CharTable* table, char* key, int val)
+{
+    if (table->impl.count + 1 > table->impl.capacity * 0.75)
+    {
+        size_t capacity = ((table->impl.capacity) < 8 ? 8 : (table->impl.capacity) * 2);
+        CharTable_adjust_capacity(table, capacity);
+    }
+    CharTable_entry* entry      = CharTable_find(table, key);
+    bool             is_new_key = entry->key == NULL;
+    if (is_new_key)
+        table->impl.count++;
+    entry->key   = key;
+    entry->value = val;
+    return is_new_key;
+}
+bool CharTable_get(CharTable* table, char* key, int* value)
+{
+    if (table->impl.count == 0)
+        return false;
+    CharTable_entry* entry = CharTable_find(table, key);
+    if (entry->key == NULL)
+        return false;
+    *value = entry->value;
+    return true;
+}
 
 int main()
 {
